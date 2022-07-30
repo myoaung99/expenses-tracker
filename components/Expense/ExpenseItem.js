@@ -11,7 +11,9 @@ const ExpenseItem = ({ expense, onPress }) => {
         onPress={onPress}
         style={({ pressed }) =>
           pressed
-            ? Platform.OS === "ios" && [styles.item, styles.pressed]
+            ? Platform.OS === "ios"
+              ? [styles.item, styles.pressed]
+              : styles.item
             : styles.item
         }
       >
