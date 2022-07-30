@@ -7,7 +7,7 @@ const ExpenseItem = ({ expense, onPress }) => {
   return (
     <View style={styles.container}>
       <Pressable
-        // android_ripple={{ color: "#ccc" }}
+        android_ripple={{ color: "#ccc" }}
         onPress={onPress}
         style={({ pressed }) =>
           pressed
