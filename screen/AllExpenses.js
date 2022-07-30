@@ -7,7 +7,7 @@ const DUMMY_EXPENSES = [
   {
     id: "e1",
     name: "Book",
-    amount: 33.3,
+    amount: 333.3,
     date: new Date(2022, 7, 2),
   },
   {
@@ -43,21 +43,5 @@ export default RecentExpenses;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    padding: 16,
-  },
-  totalContainer: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    backgroundColor: "black",
-  },
-  totalText: {
-    color: "white",
   },
 });

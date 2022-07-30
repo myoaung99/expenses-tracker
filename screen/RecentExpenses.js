@@ -9,13 +9,13 @@ const DUMMY_EXPENSES = [
   {
     id: "e1",
     name: "Book",
-    amount: 33.3,
+    amount: 323.3,
     date: new Date(2022, 7, 2),
   },
   {
     id: "e2",
     name: "Another Book",
-    amount: 33.3,
+    amount: 332.3,
     date: new Date(2022, 6, 27),
   },
   {
@@ -55,7 +55,5 @@ export default RecentExpenses;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    padding: 16,
   },
 });
