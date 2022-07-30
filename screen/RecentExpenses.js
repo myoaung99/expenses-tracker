@@ -1,8 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { Text, View, Button, StyleSheet, SafeAreaView } from "react-native";
-import ExpenseList from "../components/Expense/ExpenseList";
 import ExpenseOutput from "../components/Expense/ExpenseOutput";
-import ExpenseSummary from "../components/Expense/ExpenseSummary";
 import HeaderButton from "../components/UI/HeaderButton";
 
 const DUMMY_EXPENSES = [
@@ -33,12 +31,6 @@ const DUMMY_EXPENSES = [
 ];
 
 const RecentExpenses = ({ route, navigation }) => {
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <HeaderButton />,
-    });
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <ExpenseOutput expenses={DUMMY_EXPENSES} isRecent={true} />

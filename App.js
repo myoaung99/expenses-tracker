@@ -5,8 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import RecentExpenses from "./screen/RecentExpenses";
 import AllExpense from "./screen/AllExpenses";
 import ManageExpense from "./screen/ManageExpense";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "./constants/styles";
+import HeaderButton from "./components/UI/HeaderButton";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,14 @@ const TabNavigator = () => {
         },
         tabBarInactiveTintColor: GlobalStyles.colors.primary50,
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        headerRight: ({ tintColor }) => (
+          <HeaderButton
+            name="add"
+            size={28}
+            color={tintColor}
+            onPress={() => console.log("pressed")}
+          />
+        ),
       }}
     >
       <Tab.Screen
