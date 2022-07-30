@@ -3,11 +3,12 @@ import { GlobalStyles } from "./../../constants/styles";
 import { Text, View, StyleSheet, Pressable, Platform } from "react-native";
 import { getFormattedDate } from "../../util/date";
 
-const ExpenseItem = ({ expense }) => {
+const ExpenseItem = ({ expense, onPress }) => {
   return (
     <View style={styles.container}>
       <Pressable
         android_ripple={{ color: "#ccc" }}
+        onPress={onPress}
         style={({ pressed }) =>
           pressed
             ? Platform.OS == "ios"

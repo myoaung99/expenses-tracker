@@ -1,7 +1,10 @@
 import React from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
 
-const ManageExpense = ({ navigation }) => {
+const ManageExpense = ({ navigation, route }) => {
+  if (route.params.manage === "edit")
+    console.log(route.params.manage, route.params.expense);
+  if (route.params.manage === "new") console.log(route.params.manage);
   return (
     <View style={styles.container}>
       <Text>This is recent expense screen</Text>

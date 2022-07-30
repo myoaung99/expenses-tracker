@@ -34,10 +34,6 @@ const RecentExpenses = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ExpenseOutput expenses={DUMMY_EXPENSES} isRecent={true} />
-      <Button
-        title="Show Modal"
-        onPress={() => navigation.navigate("ManageExpense")}
-      />
     </SafeAreaView>
   );
 };

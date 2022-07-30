@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerTitleAlign: "center",
         headerTintColor: "white",
         headerStyle: {
@@ -31,10 +31,12 @@ const TabNavigator = () => {
             name="add"
             size={28}
             color={tintColor}
-            onPress={() => console.log("pressed")}
+            onPress={() =>
+              navigation.navigate("ManageExpense", { manage: "new" })
+            }
           />
         ),
-      }}
+      })}
     >
       <Tab.Screen
         name="RecentExpenses"

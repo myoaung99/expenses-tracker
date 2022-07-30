@@ -1,10 +1,18 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, FlatList } from "react-native";
 import ExpenseItem from "./ExpenseItem";
 
 const ExpenseList = ({ expenses }) => {
+  const navigation = useNavigation();
   const renderItem = ({ item }) => {
-    return <ExpenseItem expense={item} />;
+    const pressHandler = () => {
+      navigation.navigate("ManageExpense", {
+        manage: "edit",
+        expense: item.id,
+      });
+    };
+    return <ExpenseItem expense={item} onPress={pressHandler} />;
   };
   return (
     <View style={styles.expenseListContainer}>
