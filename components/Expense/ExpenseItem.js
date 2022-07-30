@@ -7,13 +7,11 @@ const ExpenseItem = ({ expense, onPress }) => {
   return (
     <View style={styles.container}>
       <Pressable
-        android_ripple={{ color: "#ccc" }}
+        // android_ripple={{ color: "#ccc" }}
         onPress={onPress}
         style={({ pressed }) =>
           pressed
-            ? Platform.OS == "ios"
-              ? [styles.item, styles.pressed]
-              : styles.item
+            ? Platform.OS === "ios" && [styles.item, styles.pressed]
             : styles.item
         }
       >
@@ -65,5 +63,8 @@ const styles = StyleSheet.create({
   itemDate: {
     fontSize: 10,
     color: "white",
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });
