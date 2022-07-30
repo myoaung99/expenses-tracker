@@ -1,51 +1,87 @@
 import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import RecentExpenses from "./screen/RecentExpenses";
 import AllExpense from "./screen/AllExpenses";
+import ManageExpense from "./screen/ManageExpense";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { GlobalStyles } from "./constants/styles";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerTitleAlign: "center",
+        headerTintColor: "white",
+        headerStyle: {
+          backgroundColor: GlobalStyles.colors.primary500,
+        },
+        tabBarStyle: {
+          backgroundColor: GlobalStyles.colors.primary500,
+        },
+        tabBarInactiveTintColor: GlobalStyles.colors.primary50,
+        tabBarActiveTintColor: GlobalStyles.colors.accent500,
+      }}
+    >
+      <Tab.Screen
+        name="RecentExpenses"
+        component={RecentExpenses}
+        options={{
+          title: "Recent Expenses",
+          tabBarLabel: "Recent",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="hourglass" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="AllExpenses"
+        options={{
+          title: "All Expenses",
+          tabBarLabel: "All Expenses",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="calendar" size={size} color={color} />
+          ),
+        }}
+        component={AllExpense}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default function App() {
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <NavigationContainer>
-        <Tab.Navigator
+        <Stack.Navigator
           screenOptions={{
             headerTitleAlign: "center",
+            headerTintColor: "white",
+            headerStyle: {
+              backgroundColor: GlobalStyles.colors.primary500,
+            },
           }}
         >
-          <Tab.Screen
-            name="RecentExpenses"
-            component={RecentExpenses}
+          <Stack.Screen
+            name="TabNavigator"
+            component={TabNavigator}
             options={{
-              title: "Recent Expenses",
-              tabBarLabel: "Recent",
-              tabBarIcon: ({ color, size }) => {
-                return (
-                  <MaterialCommunityIcons
-                    name="timer-sand"
-                    size={size}
-                    color={color}
-                  />
-                );
-              },
+              headerShown: false,
             }}
           />
-          <Tab.Screen
-            name="AllExpenses"
+          <Stack.Screen
+            name="ManageExpense"
+            component={ManageExpense}
             options={{
-              title: "All Expenses",
-              tabBarLabel: "All Expenses",
-              tabBarIcon: ({ color, size }) => {
-                return <Ionicons name="calendar" size={size} color={color} />;
-              },
+              presentation: "modal",
             }}
-            component={AllExpense}
           />
-        </Tab.Navigator>
+        </Stack.Navigator>
       </NavigationContainer>
     </>
   );
