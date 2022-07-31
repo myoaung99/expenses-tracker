@@ -14,6 +14,7 @@ const ExpenseList = ({ expenses }) => {
     };
     return <ExpenseItem expense={item} onPress={pressHandler} />;
   };
+
   return (
     <View style={styles.expenseListContainer}>
       <FlatList
@@ -31,5 +32,6 @@ const styles = StyleSheet.create({
   expenseListContainer: {
     width: "100%",
     marginTop: 20,
+    paddingBottom: 20,
   },
 });

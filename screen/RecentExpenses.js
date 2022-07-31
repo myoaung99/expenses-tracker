@@ -8,7 +8,11 @@ const RecentExpenses = ({ route, navigation }) => {
   console.log(expenses, "from recent");
   return (
     <SafeAreaView style={styles.container}>
-      <ExpenseOutput expenses={expenses} isRecent={true} />
+      <ExpenseOutput
+        expenses={expenses}
+        isRecent={true}
+        fallbackText="No expenses registered for the last 7 days."
+      />
     </SafeAreaView>
   );
 };
