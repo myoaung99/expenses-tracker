@@ -35,10 +35,7 @@ export const counterSlice = createSlice({
   reducers: {
     addExpense: (state, action) => {
       const id = new Date().toString() + Math.random();
-      initialState.expenses = state.expenses.unshift({
-        id: id,
-        ...action.payload,
-      });
+      state.expenses = [{ id: id, ...action.payload }, ...state.expenses];
     },
     updateExpense: (state, action) => {
       const { id: itemId, data: itemData } = action.payload;
