@@ -6,8 +6,11 @@ import { GlobalStyles } from "../../constants/styles";
 
 const ExpenseOutput = ({ isRecent, expenses, fallbackText }) => {
   let expenseList = [...expenses];
+  let summaryText = "All";
+  let content = <Text style={styles.infoText}>{fallbackText}</Text>;
 
   if (isRecent) {
+    summaryText = "Last 7 days";
     const today = new Date().getDate();
     const lastWeek = today - 7;
 
@@ -17,15 +20,13 @@ const ExpenseOutput = ({ isRecent, expenses, fallbackText }) => {
     });
   }
 
-  let content = <Text style={styles.infoText}>{fallbackText}</Text>;
-
   if (expenses.length > 0) {
     content = <ExpenseList expenses={expenseList} />;
   }
 
   return (
     <View style={styles.container}>
-      <ExpenseSummary isRecent={isRecent} expenses={expenseList} />
+      <ExpenseSummary summaryText={summaryText} expenses={expenseList} />
       {content}
     </View>
   );

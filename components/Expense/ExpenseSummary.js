@@ -2,11 +2,7 @@ import React from "react";
 import { GlobalStyles } from "./../../constants/styles";
 import { View, Text, StyleSheet } from "react-native";
 
-const ExpenseSummary = ({ isRecent, expenses }) => {
-  let summaryText = "Last 7 Days";
-
-  if (!isRecent) summaryText = "All";
-
+const ExpenseSummary = ({ summaryText, expenses }) => {
   let total = expenses
     .map((expense) => expense.amount)
     .reduce((curr, amount) => curr + amount, 0)

@@ -3,9 +3,9 @@ import { StyleSheet, SafeAreaView } from "react-native";
 import ExpenseOutput from "../components/Expense/ExpenseOutput";
 import { useSelector } from "react-redux";
 
-const RecentExpenses = ({ route, navigation }) => {
+const RecentExpenses = () => {
   const expenses = useSelector((state) => state.expenses.expenses);
-  console.log(expenses, "from recent");
+
   return (
     <SafeAreaView style={styles.container}>
       <ExpenseOutput
