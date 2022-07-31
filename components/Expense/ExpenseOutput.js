@@ -10,7 +10,6 @@ const ExpenseOutput = ({ isRecent, expenses }) => {
   if (isRecent) {
     const today = new Date().getDate();
     const lastWeek = today - 7;
-    console.log(lastWeek.toString());
 
     expenseList = expenseList.filter((expense) => {
       const date = new Date(expense.date).getDate();

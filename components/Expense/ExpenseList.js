@@ -5,6 +5,7 @@ import ExpenseItem from "./ExpenseItem";
 
 const ExpenseList = ({ expenses }) => {
   const navigation = useNavigation();
+
   const renderItem = ({ item }) => {
     const pressHandler = () => {
       navigation.navigate("ManageExpense", {

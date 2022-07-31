@@ -1,39 +1,13 @@
 import React from "react";
-import { Text, View, StyleSheet, SafeAreaView } from "react-native";
-import ExpenseList from "../components/Expense/ExpenseList";
+import {StyleSheet, SafeAreaView } from "react-native";
+import {useSelector} from "react-redux";
 import ExpenseOutput from "../components/Expense/ExpenseOutput";
 
-const DUMMY_EXPENSES = [
-  {
-    id: "e1",
-    name: "Book",
-    amount: 333.3,
-    date: new Date(2022, 7, 2),
-  },
-  {
-    id: "e2",
-    name: "Another Book",
-    amount: 33.3,
-    date: new Date(2022, 6, 27),
-  },
-  {
-    id: "e3",
-    name: "Yet Another Book",
-    amount: 33.3,
-    date: new Date(2022, 7, 1),
-  },
-  {
-    id: "e4",
-    name: "You guessed it",
-    amount: 33.3,
-    date: new Date(2022, 6, 25),
-  },
-];
-
 const RecentExpenses = () => {
+  const expenses = useSelector(state=>state.expenses.expenses)
   return (
     <SafeAreaView style={styles.container}>
-      <ExpenseOutput expenses={DUMMY_EXPENSES} isRecent={false} />
+      <ExpenseOutput expenses={expenses} isRecent={false} />
     </SafeAreaView>
   );
 };
