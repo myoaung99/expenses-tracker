@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { Text, View, Button, StyleSheet, SafeAreaView } from "react-native";
 import ExpenseOutput from "../components/Expense/ExpenseOutput";
-import HeaderButton from "../components/UI/HeaderButton";
+import HeaderButton from "../components/UI/IconButton";
 
 const DUMMY_EXPENSES = [
   {

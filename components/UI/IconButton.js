@@ -2,7 +2,7 @@ import React from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const HeaderButton = ({ name, color, size, onPress }) => {
+const IconButton = ({ name, color, size, onPress }) => {
   return (
     <Pressable
       style={({ pressed }) => pressed && styles.pressed}
@@ -15,7 +15,7 @@ const HeaderButton = ({ name, color, size, onPress }) => {
   );
 };
 
-export default HeaderButton;
+export default IconButton;
 
 const styles = StyleSheet.create({
   button: {

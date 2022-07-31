@@ -8,8 +8,7 @@ const ExpenseList = ({ expenses }) => {
   const renderItem = ({ item }) => {
     const pressHandler = () => {
       navigation.navigate("ManageExpense", {
-        manage: "edit",
-        expense: item.id,
+        expenseId: item.id,
       });
     };
     return <ExpenseItem expense={item} onPress={pressHandler} />;

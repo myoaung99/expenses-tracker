@@ -7,7 +7,7 @@ import AllExpense from "./screen/AllExpenses";
 import ManageExpense from "./screen/ManageExpense";
 import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "./constants/styles";
-import HeaderButton from "./components/UI/HeaderButton";
+import IconButton from "./components/UI/IconButton";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,7 +27,7 @@ const TabNavigator = () => {
         tabBarInactiveTintColor: GlobalStyles.colors.primary50,
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
         headerRight: ({ tintColor }) => (
-          <HeaderButton
+          <IconButton
             name="add"
             size={28}
             color={tintColor}
