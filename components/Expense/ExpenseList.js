@@ -18,6 +18,7 @@ const ExpenseList = ({ expenses }) => {
   return (
     <View style={styles.expenseListContainer}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={expenses}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}

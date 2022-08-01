@@ -4,27 +4,57 @@ const initialState = {
   expenses: [
     {
       id: "e1",
-      name: "Book",
-      amount: 333.3,
-      date: new Date(2022, 7, 2).getTime(),
+      name: "A pair of shoes",
+      amount: 59.99,
+      date: new Date("2022-07-25").getTime(),
     },
     {
       id: "e2",
-      name: "Another Book",
-      amount: 33.3,
-      date: new Date(2022, 6, 27).getTime(),
+      name: "A pair of trousers",
+      amount: 89.29,
+      date: new Date("2022-07-25").getTime(),
     },
     {
       id: "e3",
-      name: "Yet Another Book",
-      amount: 33.3,
-      date: new Date(2022, 7, 1).getTime(),
+      name: "Some bananas",
+      amount: 5.99,
+      date: new Date("2022-07-26").getTime(),
     },
     {
       id: "e4",
-      name: "You guessed it",
-      amount: 33.3,
-      date: new Date(2022, 6, 25).getTime(),
+      name: "A book",
+      amount: 14.99,
+      date: new Date("2022-06-28").getTime(),
+    },
+    {
+      id: "e5",
+      name: "Another book",
+      amount: 18.59,
+      date: new Date("2022-06-20").getTime(),
+    },
+    {
+      id: "e6",
+      name: "A pair of trousers",
+      amount: 89.29,
+      date: new Date("2022-06-21").getTime(),
+    },
+    {
+      id: "e7",
+      name: "Some bananas",
+      amount: 5.99,
+      date: new Date("2021-12-01").getTime(),
+    },
+    {
+      id: "e8",
+      name: "A book",
+      amount: 14.99,
+      date: new Date("2022-02-19").getTime(),
+    },
+    {
+      id: "e9",
+      name: "Another book",
+      amount: 18.59,
+      date: new Date("2022-02-18").getTime(),
     },
   ],
 };
@@ -35,7 +65,8 @@ export const counterSlice = createSlice({
   reducers: {
     addExpense: (state, action) => {
       const id = new Date().toString() + Math.random();
-      state.expenses = [{ id: id, ...action.payload }, ...state.expenses];
+      // state.expenses = [{ id: id, ...action.payload }, ...state.expenses];
+      state.expenses.unshift({ id: id, ...action.payload });
     },
     updateExpense: (state, action) => {
       const { id: itemId, data: itemData } = action.payload;
