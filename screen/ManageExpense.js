@@ -15,6 +15,11 @@ const ManageExpense = ({ navigation, route }) => {
   const isEditing = !!editingExpenseId; // convert to boolean
 
   const expenses = useSelector((state) => state.expenses.expenses);
+
+  const editingExpense = expenses.find(
+    (expense) => expense.id === editingExpenseId
+  );
+
   const dispatch = useDispatch();
 
   // header title
@@ -51,6 +56,8 @@ const ManageExpense = ({ navigation, route }) => {
         onSubmit={confirmHandler}
         onCancel={cancelHandler}
         isEditing={isEditing}
+        confirmLabel={isEditing ? "Edit" : "Add"}
+        editingExpense={editingExpense}
       />
 
       {isEditing && (

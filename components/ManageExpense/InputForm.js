@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import Input from "./Input";
 import CustomButton from "../../components/UI/CustomButton";
 import { View, StyleSheet, Text, Alert } from "react-native";
+import { getStructuredDate } from "../../util/date";
 
-const InputForm = ({ onSubmit, onCancel, isEditing }) => {
+const InputForm = ({ onSubmit, onCancel, confirmLabel, editingExpense }) => {
   const [inputValues, setInputValues] = useState({
-    amount: "",
-    date: "",
-    name: "",
+    amount: editingExpense ? editingExpense.amount.toString() : "",
+    date: editingExpense
+      ? getStructuredDate(new Date(editingExpense.date))
+      : "",
+    name: editingExpense ? editingExpense.name : "",
   });
 
+  // form input typing handler
   const textInputChangeHandler = (inputType, enteredText) => {
     setInputValues((currentValue) => ({
       ...currentValue,
@@ -20,20 +24,26 @@ const InputForm = ({ onSubmit, onCancel, isEditing }) => {
     }));
   };
 
+  // on button click
   const submitHandler = () => {
     const { name, amount, date } = inputValues;
 
     const numAmount = Number(amount);
 
-    if (!name || isNaN(numAmount) || !amount || date.trim().length > 10) {
+    const amountIsValid = !isNaN(numAmount) || numAmount > 0;
+    const dateIsValid = new Date(date).toString() !== "Invalid Date";
+    const nameIsValid = name.trim().length > 0;
+
+    // basic validate
+    if (!amountIsValid || !dateIsValid || !nameIsValid) {
       Alert.alert("Invalid input", "Please enter the valid inputs", [
         { title: "Ok", style: "cancel" },
       ]);
-
       return;
     }
+
     const expenseData = {
-      name: name,
+      name,
       amount: numAmount,
       date: new Date(date).getTime(),
     };
@@ -50,6 +60,7 @@ const InputForm = ({ onSubmit, onCancel, isEditing }) => {
           textInputConfigurations={{
             keyboardType: "decimal-pad",
             maxLength: 6,
+            value: inputValues.amount,
             onChangeText: textInputChangeHandler.bind(this, "amount"),
           }}
         />
@@ -58,6 +69,7 @@ const InputForm = ({ onSubmit, onCancel, isEditing }) => {
           label="Date"
           textInputConfigurations={{
             maxLength: 10,
+            value: inputValues.date,
             onChangeText: textInputChangeHandler.bind(this, "date"),
             placeholder: "YYYY-MM-DD",
             keyboardType: "number-pad",
@@ -69,13 +81,14 @@ const InputForm = ({ onSubmit, onCancel, isEditing }) => {
         label="Description"
         textInputConfigurations={{
           multiline: true,
+          value: inputValues.name,
           onChangeText: textInputChangeHandler.bind(this, "name"),
         }}
       />
 
       <View style={styles.buttonsContainer}>
         <CustomButton style={styles.button} onPress={submitHandler}>
-          {isEditing ? "Edit" : "Add"}
+          {confirmLabel}
         </CustomButton>
         <CustomButton style={styles.button} onPress={onCancel} mode="flat">
           Cancel
