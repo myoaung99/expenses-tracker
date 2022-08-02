@@ -3,6 +3,7 @@ import Input from "./Input";
 import CustomButton from "../../components/UI/CustomButton";
 import { View, StyleSheet, Text, Alert } from "react-native";
 import { getStructuredDate } from "../../util/date";
+import { GlobalStyles } from "../../constants/styles";
 
 const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
   const [inputValues, setInputValues] = useState({
@@ -40,8 +41,10 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
 
     const numAmount = Number(amount.value);
 
-    const amountIsValid = !isNaN(numAmount) || numAmount > 0;
-    const dateIsValid = new Date(date.value).toString() !== "Invalid Date";
+    const amountIsValid = isNaN(numAmount) || numAmount > 0;
+    const dateIsValid =
+      new Date(date.value).toString() !== "Invalid Date" ||
+      (date.value.length <= 10 && date.value.length >= 8);
     const nameIsValid = name.value.trim().length > 0;
 
     // basic validate
@@ -69,6 +72,12 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
     inputValues.date.isValid &&
     inputValues.name.isValid;
 
+  console.log(
+    inputValues.amount.isValid,
+    inputValues.date.isValid,
+    inputValues.name.isValid
+  );
+
   return (
     <View style={styles.form}>
       <Text style={styles.title}>Your Expense</Text>
@@ -76,6 +85,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
         <Input
           style={styles.input}
           label="Amount"
+          validity={inputValues.amount.isValid}
           textInputConfigurations={{
             keyboardType: "decimal-pad",
             maxLength: 6,
@@ -86,6 +96,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
         <Input
           style={styles.input}
           label="Date"
+          validity={inputValues.date.isValid}
           textInputConfigurations={{
             maxLength: 10,
             value: inputValues.date.value,
@@ -98,6 +109,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
 
       <Input
         label="Description"
+        validity={inputValues.name.isValid}
         textInputConfigurations={{
           multiline: true,
           value: inputValues.name.value,
@@ -105,7 +117,11 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
         }}
       />
 
-      {!formIsValid && <Text>Invalid inputs.Please check your inputs.</Text>}
+      {!formIsValid && (
+        <Text style={styles.inValidText}>
+          Invalid inputs.Please check your inputs.
+        </Text>
+      )}
 
       <View style={styles.buttonsContainer}>
         <CustomButton style={styles.button} onPress={submitHandler}>
@@ -147,5 +163,9 @@ const styles = StyleSheet.create({
   button: {
     minWidth: 120,
     marginHorizontal: 8,
+  },
+  inValidText: {
+    textAlign: "center",
+    color: GlobalStyles.colors.error500,
   },
 });
