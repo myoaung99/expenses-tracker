@@ -4,20 +4,30 @@ import CustomButton from "../../components/UI/CustomButton";
 import { View, StyleSheet, Text, Alert } from "react-native";
 import { getStructuredDate } from "../../util/date";
 
-const InputForm = ({ onSubmit, onCancel, confirmLabel, editingExpense }) => {
+const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
   const [inputValues, setInputValues] = useState({
-    amount: editingExpense ? editingExpense.amount.toString() : "",
-    date: editingExpense
-      ? getStructuredDate(new Date(editingExpense.date))
-      : "",
-    name: editingExpense ? editingExpense.name : "",
+    amount: {
+      value: defaultValue ? defaultValue.amount.toString() : "",
+      isValid: true,
+    },
+    date: {
+      value: defaultValue ? getStructuredDate(new Date(defaultValue.date)) : "",
+      isValid: true,
+    },
+    name: {
+      value: defaultValue ? defaultValue.name : "",
+      isValid: true,
+    },
   });
 
   // form input typing handler
   const textInputChangeHandler = (inputType, enteredText) => {
     setInputValues((currentValue) => ({
       ...currentValue,
-      [inputType]: enteredText,
+      [inputType]: {
+        value: enteredText,
+        isValid: true,
+      },
       // object name ကို dynamic ထည့်ချင်ရင် [] ထည့်သုံးရတယ်
       // [inputType]: enteredText --> true
       // inputType: enteredText --> false
@@ -28,27 +38,36 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, editingExpense }) => {
   const submitHandler = () => {
     const { name, amount, date } = inputValues;
 
-    const numAmount = Number(amount);
+    const numAmount = Number(amount.value);
 
     const amountIsValid = !isNaN(numAmount) || numAmount > 0;
-    const dateIsValid = new Date(date).toString() !== "Invalid Date";
-    const nameIsValid = name.trim().length > 0;
+    const dateIsValid = new Date(date.value).toString() !== "Invalid Date";
+    const nameIsValid = name.value.trim().length > 0;
 
     // basic validate
     if (!amountIsValid || !dateIsValid || !nameIsValid) {
-      Alert.alert("Invalid input", "Please enter the valid inputs", [
-        { title: "Ok", style: "cancel" },
-      ]);
+      setInputValues((currInput) => {
+        return {
+          amount: { value: currInput.amount.value, isValid: amountIsValid },
+          date: { value: currInput.date.value, isValid: dateIsValid },
+          name: { value: currInput.name.value, isValid: nameIsValid },
+        };
+      });
       return;
     }
 
     const expenseData = {
-      name,
+      name: name.value,
       amount: numAmount,
-      date: new Date(date).getTime(),
+      date: new Date(date.value).getTime(),
     };
     onSubmit(expenseData);
   };
+
+  const formIsValid =
+    inputValues.amount.isValid &&
+    inputValues.date.isValid &&
+    inputValues.name.isValid;
 
   return (
     <View style={styles.form}>
@@ -60,7 +79,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, editingExpense }) => {
           textInputConfigurations={{
             keyboardType: "decimal-pad",
             maxLength: 6,
-            value: inputValues.amount,
+            value: inputValues.amount.value,
             onChangeText: textInputChangeHandler.bind(this, "amount"),
           }}
         />
@@ -69,7 +88,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, editingExpense }) => {
           label="Date"
           textInputConfigurations={{
             maxLength: 10,
-            value: inputValues.date,
+            value: inputValues.date.value,
             onChangeText: textInputChangeHandler.bind(this, "date"),
             placeholder: "YYYY-MM-DD",
             keyboardType: "number-pad",
@@ -81,10 +100,12 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, editingExpense }) => {
         label="Description"
         textInputConfigurations={{
           multiline: true,
-          value: inputValues.name,
+          value: inputValues.name.value,
           onChangeText: textInputChangeHandler.bind(this, "name"),
         }}
       />
+
+      {!formIsValid && <Text>Invalid inputs.Please check your inputs.</Text>}
 
       <View style={styles.buttonsContainer}>
         <CustomButton style={styles.button} onPress={submitHandler}>

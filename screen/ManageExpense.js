@@ -57,7 +57,7 @@ const ManageExpense = ({ navigation, route }) => {
         onCancel={cancelHandler}
         isEditing={isEditing}
         confirmLabel={isEditing ? "Edit" : "Add"}
-        editingExpense={editingExpense}
+        defaultValue={editingExpense}
       />
 
       {isEditing && (
