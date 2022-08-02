@@ -9,18 +9,19 @@ import {
   updateExpense,
 } from "../store/expenses-slice";
 import InputForm from "../components/ManageExpense/InputForm";
+import { storeExpense } from "../util/http-request";
 
 const ManageExpense = ({ navigation, route }) => {
   const editingExpenseId = route.params?.expenseId; // safety check for undefined
   const isEditing = !!editingExpenseId; // convert to boolean
 
   const expenses = useSelector((state) => state.expenses.expenses);
+  const dispatch = useDispatch();
 
+  // => undefined or object
   const editingExpense = expenses.find(
     (expense) => expense.id === editingExpenseId
   );
-
-  const dispatch = useDispatch();
 
   // header title
   useLayoutEffect(() => {
@@ -33,10 +34,12 @@ const ManageExpense = ({ navigation, route }) => {
     dispatch(deleteExpense({ id: editingExpenseId }));
     navigation.goBack();
   };
+
   const cancelHandler = () => {
     navigation.goBack();
   };
-  const confirmHandler = (expenseInfos) => {
+
+  const confirmHandler = async (expenseInfos) => {
     if (isEditing) {
       dispatch(
         updateExpense({
@@ -45,7 +48,8 @@ const ManageExpense = ({ navigation, route }) => {
         })
       );
     } else {
-      dispatch(addExpense(expenseInfos));
+      const id = await storeExpense(expenseInfos);
+      dispatch(addExpense({ ...expenseInfos, id }));
     }
     navigation.goBack();
   };
@@ -55,7 +59,6 @@ const ManageExpense = ({ navigation, route }) => {
       <InputForm
         onSubmit={confirmHandler}
         onCancel={cancelHandler}
-        isEditing={isEditing}
         confirmLabel={isEditing ? "Edit" : "Add"}
         defaultValue={editingExpense}
       />

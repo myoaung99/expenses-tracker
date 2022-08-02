@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -65,6 +66,8 @@ const TabNavigator = () => {
 };
 
 export default function App() {
+ 
+
   return (
     <>
       <StatusBar style="light" />

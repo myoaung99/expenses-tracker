@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import ExpenseOutput from "../components/Expense/ExpenseOutput";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setInitialExpenses } from "../store/expenses-slice";
 import { getDateMinusDays } from "./../util/date";
+import { fetchExpenses } from "./../util/http-request";
 
 const RecentExpenses = () => {
   const expenses = useSelector((state) => state.expenses.expenses);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function fetch() {
+      const expenses = await fetchExpenses();
+      dispatch(setInitialExpenses({ expenses }));
+    }
+
+    fetch();
+  }, []);
 
   const expenseList = expenses.filter((expense) => {
     const today = new Date();
     const date7DaysAgo = getDateMinusDays(today, 7);
 
-    return new Date(expense.date) >= date7DaysAgo && expense.date <= today;
+    return (
+      new Date(expense.date) >= date7DaysAgo && new Date(expense.date) <= today
+    );
   });
 
   return (

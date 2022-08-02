@@ -42,9 +42,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
     const numAmount = Number(amount.value);
 
     const amountIsValid = isNaN(numAmount) || numAmount > 0;
-    const dateIsValid =
-      new Date(date.value).toString() !== "Invalid Date" ||
-      (date.value.length <= 10 && date.value.length >= 8);
+    const dateIsValid = new Date(date.value).toString() !== "Invalid Date";
     const nameIsValid = name.value.trim().length > 0;
 
     // basic validate
@@ -59,10 +57,12 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
       return;
     }
 
+    console.log("ok");
+
     const expenseData = {
       name: name.value,
       amount: numAmount,
-      date: new Date(date.value).getTime(),
+      date: new Date(date.value).toISOString(),
     };
     onSubmit(expenseData);
   };
@@ -71,12 +71,6 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
     inputValues.amount.isValid &&
     inputValues.date.isValid &&
     inputValues.name.isValid;
-
-  console.log(
-    inputValues.amount.isValid,
-    inputValues.date.isValid,
-    inputValues.name.isValid
-  );
 
   return (
     <View style={styles.form}>
@@ -119,7 +113,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
 
       {!formIsValid && (
         <Text style={styles.inValidText}>
-          Invalid inputs.Please check your inputs.
+          Invalid inputs. Please check your inputs.
         </Text>
       )}
 
