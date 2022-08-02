@@ -9,7 +9,11 @@ import {
   updateExpense,
 } from "../store/expenses-slice";
 import InputForm from "../components/ManageExpense/InputForm";
-import { storeExpense } from "../util/http-request";
+import {
+  deleteExpenseServer,
+  storeExpenseServer,
+  updateExpenseServer,
+} from "../util/http-request";
 
 const ManageExpense = ({ navigation, route }) => {
   const editingExpenseId = route.params?.expenseId; // safety check for undefined
@@ -30,8 +34,9 @@ const ManageExpense = ({ navigation, route }) => {
     });
   }, [navigation]);
 
-  const deleteHandler = () => {
+  const deleteHandler = async () => {
     dispatch(deleteExpense({ id: editingExpenseId }));
+    deleteExpenseServer(editingExpenseId);
     navigation.goBack();
   };
 
@@ -47,8 +52,9 @@ const ManageExpense = ({ navigation, route }) => {
           data: expenseInfos,
         })
       );
+      updateExpenseServer(editingExpense, expenseInfos);
     } else {
-      const id = await storeExpense(expenseInfos);
+      const id = await storeExpenseServer(expenseInfos);
       dispatch(addExpense({ ...expenseInfos, id }));
     }
     navigation.goBack();

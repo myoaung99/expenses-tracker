@@ -57,8 +57,6 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
       return;
     }
 
-    console.log("ok");
-
     const expenseData = {
       name: name.value,
       amount: numAmount,

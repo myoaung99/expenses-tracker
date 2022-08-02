@@ -4,7 +4,7 @@ import ExpenseOutput from "../components/Expense/ExpenseOutput";
 import { useSelector, useDispatch } from "react-redux";
 import { setInitialExpenses } from "../store/expenses-slice";
 import { getDateMinusDays } from "./../util/date";
-import { fetchExpenses } from "./../util/http-request";
+import { fetchExpensesServer } from "./../util/http-request";
 
 const RecentExpenses = () => {
   const expenses = useSelector((state) => state.expenses.expenses);
@@ -12,7 +12,7 @@ const RecentExpenses = () => {
 
   useEffect(() => {
     async function fetch() {
-      const expenses = await fetchExpenses();
+      const expenses = await fetchExpensesServer();
       dispatch(setInitialExpenses({ expenses }));
     }
 
