@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { GlobalStyles } from "../constants/styles";
 import IconButton from "../components/UI/IconButton";
 import { View, StyleSheet } from "react-native";
@@ -14,11 +14,14 @@ import {
   storeExpenseServer,
   updateExpenseServer,
 } from "../util/http-request";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 const ManageExpense = ({ navigation, route }) => {
   const editingExpenseId = route.params?.expenseId; // safety check for undefined
   const isEditing = !!editingExpenseId; // convert to boolean
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const expenses = useSelector((state) => state.expenses.expenses);
   const dispatch = useDispatch();
 
@@ -36,8 +39,14 @@ const ManageExpense = ({ navigation, route }) => {
 
   const deleteHandler = async () => {
     dispatch(deleteExpense({ id: editingExpenseId }));
-    deleteExpenseServer(editingExpenseId);
-    navigation.goBack();
+    setIsSubmitting(true);
+    try {
+      await deleteExpenseServer(editingExpenseId);
+      navigation.goBack();
+    } catch (error) {
+      setIsError(true);
+      setIsSubmitting(false);
+    }
   };
 
   const cancelHandler = () => {
@@ -45,20 +54,41 @@ const ManageExpense = ({ navigation, route }) => {
   };
 
   const confirmHandler = async (expenseInfos) => {
-    if (isEditing) {
-      dispatch(
-        updateExpense({
-          id: editingExpenseId,
-          data: expenseInfos,
-        })
-      );
-      updateExpenseServer(editingExpense, expenseInfos);
-    } else {
-      const id = await storeExpenseServer(expenseInfos);
-      dispatch(addExpense({ ...expenseInfos, id }));
+    setIsSubmitting(true);
+    try {
+      if (isEditing) {
+        dispatch(
+          updateExpense({
+            id: editingExpenseId,
+            data: expenseInfos,
+          })
+        );
+        await updateExpenseServer(editingExpenseId, expenseInfos);
+        // console.log(JSON.stringify(expenseInfos));
+      } else {
+        const id = await storeExpenseServer(expenseInfos);
+        dispatch(addExpense({ ...expenseInfos, id }));
+      }
+
+      navigation.goBack();
+    } catch (error) {
+      setIsSubmitting(false);
+      setIsError(error);
     }
-    navigation.goBack();
   };
+
+  if (isError && !isSubmitting) {
+    return (
+      <ErrorOverlay
+        message="Something went wrong. Please try again later"
+        onConfirm={() => setIsError(false)}
+      />
+    );
+  }
+
+  if (isSubmitting) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <View style={styles.container}>

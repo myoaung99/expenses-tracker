@@ -62,6 +62,7 @@ const InputForm = ({ onSubmit, onCancel, confirmLabel, defaultValue }) => {
       amount: numAmount,
       date: new Date(date.value).toISOString(),
     };
+
     onSubmit(expenseData);
   };
 

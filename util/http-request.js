@@ -26,10 +26,28 @@ export const fetchExpensesServer = async () => {
   return expenses;
 };
 
-export const updateExpenseServer = (id, expense) => {
-  return axios.put(BACKEND_URL + `/expenses/${id}.json`, expense);
+export const updateExpenseServer = async (id, expense) => {
+  console.log("updateExpenseServer", id);
+  const response = await axios.put(
+    BACKEND_URL + `/expenses/${id}.json`,
+    expense
+  );
+  return response;
+  // return await fetch(BACKEND_URL + `/expenses/${id}.json`, {
+  //   method: "PUT",
+  //   body: JSON.stringify(expense),
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+
+  // return await axios.put(BACKEND_URL + `/expenses/${id}`, {
+  //   name: "Ysvias324dsdf",
+  //   amount: 131235,
+  //   date: "2022-08-01T00:00:00.000Z",
+  // });
 };
 
 export const deleteExpenseServer = async (id) => {
-  return axios.delete(BACKEND_URL + `/expenses/${id}.json`);
+  return await axios.delete(BACKEND_URL + `/expenses/${id}.json`);
 };
